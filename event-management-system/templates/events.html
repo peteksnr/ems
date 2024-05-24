@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Types</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"></script>
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        function toggleForm(formId) {
+            document.getElementById('addPurchaseForm').style.display = 'none';
+            document.getElementById('deletePurchaseForm').style.display = 'none';
+            document.getElementById(formId).style.display = 'flex';
+        }
+    </script>
+    <script>
+        function toggleForm(formId) {
+            document.getElementById('addEventForm').style.display = 'none';
+            document.getElementById('deleteEventForm').style.display = 'none';
+            document.getElementById('updateEventForm').style.display = 'none';
+            document.getElementById(formId).style.display = 'flex';
+        }
+    </script>
+    
+    <script>
+        function toggleForm(formId) {
+            document.getElementById('addCompanyForm').style.display = 'none';
+            document.getElementById('deleteCompanyForm').style.display = 'none';
+            document.getElementById('updateCompanyForm').style.display = 'none';
+            document.getElementById(formId).style.display = 'flex';
+        }
+    </script>
+    <script>
+        function toggleForm(formId) {
+            document.getElementById('addDistributerForm').style.display = 'none';
+            document.getElementById('deleteDistributerForm').style.display = 'none';
+            document.getElementById('updateDistributerForm').style.display = 'none';
+            document.getElementById(formId).style.display = 'flex';
+        }
+    </script>
+    <script>
+        function toggleForm(formId) {
+            document.getElementById('addCustomerForm').style.display = 'none';
+            document.getElementById('deleteCustomerForm').style.display = 'none';
+            document.getElementById(formId).style.display = 'flex';
+        }
+    </script>
+    <script>
+        function toggleForm(formId) {
+            document.getElementById('addTicketForm').style.display = 'none';
+            document.getElementById('deleteTicketForm').style.display = 'none';
+            document.getElementById('updateTicketForm').style.display = 'none';
+            document.getElementById(formId).style.display = 'flex';
+        }
+    </script>
+    <script>
+        function toggleForm(formId) {
+            document.getElementById('addPurchaseForm').style.display = 'none';
+            document.getElementById('deletePurchaseForm').style.display = 'none';
+            document.getElementById(formId).style.display = 'flex';
+        }
+    </script>
+    <script>
+        function toggleForm(formId) {
+            document.getElementById('addcust_ofForm').style.display = 'none';
+            document.getElementById('deletecust_ofForm').style.display = 'none';
+            document.getElementById(formId).style.display = 'flex';
+        }
+    </script>
+</head>
+
+<body style="background-color: #f1faee;">
+    <div style="background-color:#004e89;height: 70px;align-items: center; display: flex; justify-content: center;"
+        class="text-light">
+        <h1>Event Administrator</h1>
+    </div>
+    <details class="d-flex"><summary>Events</summary>
+    <div style="padding-top: 50px; margin: 30px;">
+
+        <div style=" align-items: center; display: flex; justify-content: center;">
+            <h1>Events</h1>
+        </div>
+        <table class="table">
+            <thead class="thead-dark bg-dark text-light">
+                <tr>
+                    <th scope="col">Event ID</th>
+                    <th scope="col">Event Name</th>
+                    <th scope="col">Event Type</th>
+                    <th scope="col">Event Location</th>
+                    <th scope="col">Event Date-Time</th>
+                    <th scope="col">Event General Ticket Price</th>
+                    <th scope="col">Event VIP Ticket Price</th>
+                    <th scope="col">Event Income</th>
+                    <th scope="col">Event Expense</th>
+                    <th scope="col">Event Details</th>
+                    <th scope="col">Event Company_Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for eve in events %}
+                <tr>
+                    <th scope="row">{{ eve[0] }}</th>
+                    <td>{{ eve[1] }}</td>
+                    <td>{{ eve[2] }}</td>
+                    <td>{{ eve[3] }}</td>
+                    <td>{{ eve[4] }}</td>
+                    <td>{{ eve[5] }}</td>
+                    <td>{{ eve[6] }}</td>
+                    <td>{{ eve[7] }}</td>
+                    <td>{{ eve[8] }}</td>
+                    <td>{{ eve[9] }}</td>
+                    <td>{{ eve[10] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row" style="align-items: center; display: flex; justify-content: center;">
+            <div class="col-md-3">
+                <button id="addEventBtn" type="button" class="mb-5 btn btn-primary btn-lg" onclick="toggleForm('addEventForm')">
+                    + Add new Event
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button id="updateEventBtn" type="button" class="mb-5 btn btn-warning btn-lg" onclick="toggleForm('updateEventForm')">
+                    Update Event
+                </button>
+            </div>
+            <div class="col-md-6" id="deleteEventDiv">
+                <button id="deleteEventBtn" type="button" class="mb-5 btn btn-danger btn-lg" onclick="toggleForm('deleteEventForm')">
+                    Delete Event
+                </button>
+            </div>
+
+            
+        </div>
+        
+        <!-- Add Event Form -->
+<!-- Add Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="addEventForm">
+    <form method="post" action="/manage_events" style="width: 45vw; min-height: 20vw;">
+        <div class="form-group rounded" style="text-align: center;">
+            <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Add New Event</label>
+            <input type="text" name="ID" class="form-control w-100 border border-dark" placeholder="Enter Event ID" required>
+            <input type="text" name="name" class="form-control w-100 border border-dark" placeholder="Enter Event Name" required>
+            <input type="text" name="type" class="form-control w-100 border border-dark" placeholder="Enter Event Type" required>
+            <input type="text" name="location" class="form-control w-100 border border-dark" placeholder="Enter Event Location" required>
+            <input type="datetime-local" name="datetime" class="form-control w-100 border border-dark" placeholder="Enter Event Date and Time" required>
+            <input type="number" name="general" class="form-control w-100 border border-dark" placeholder="Enter Event General Ticket Price" required>
+            <input type="number" name="vipp" class="form-control w-100 border border-dark" placeholder="Enter Event VIP Ticket Price" required>
+            <input type="text" name="income" class="form-control w-100 border border-dark" placeholder="Enter Event Income" required>
+            <input type="text" name="expense" class="form-control w-100 border border-dark" placeholder="Enter Event Expense" required>
+            <textarea name="details" class="form-control w-100 border border-dark" placeholder="Enter Event Details" required></textarea>
+            <input type="text" name="company_id" class="form-control w-100 border border-dark" placeholder="Enter Company ID" required>
+        </div>
+        <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+            <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+                Add
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Update Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="updateEventForm">
+    <form method="post" action="/manage_events" style="width: 45vw; min-height: 20vw;">
+        <div class="form-group rounded" style="text-align: center;">
+            <label style="margin-top: 4%; margin-bottom: 5%; font-family: Trebuchet MS; color: antiquewhite" class="h2">Update Event</label>
+            <select name="EventId" class="form-control w-100 border border-dark" required>
+                <option selected disabled>Select Event to Update</option>
+                {% for event in events %}
+                <option value="{{ event[0] }}">{{ event[1] }}</option>
+                {% endfor %}
+            </select>
+            <select name="property" class="form-control w-100 border border-dark" required>
+                <option selected disabled>Select Property to Update</option>
+                <option value="name">Event Name</option>
+                <option value="type">Event Type</option>
+                <option value="location">Event Location</option>
+                <option value="datetime">Event Date and Time</option>
+                <option value="general_price">Event General Ticket Price</option>
+                <option value="vip_price">Event VIP Ticket Price</option>
+                <option value="income">Event Income</option>
+                <option value="expense">Event Expense</option>
+                <option value="details">Event Details</option>
+                <option value="company_id">Company ID</option>
+            </select>
+            <input type="text" name="new_value" class="form-control w-100 border border-dark" placeholder="Enter New Value" required>
+        </div>
+        <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+            <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark" name="updateEvent">
+                Update
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Delete Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="deleteEventForm">
+    <form method="post" action="/manage_events" style="width: 45vw; min-height: 20vw;">
+        <div class="form-group rounded" style="text-align: center;">
+            <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Delete Event</label>
+            <select name="EventId" class="form-control w-100 border border-dark">
+                <option selected>Select Event to Delete</option>
+                {% for event in events %}
+                <option value="{{ event[0] }}">{{ event[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+            <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+                Delete
+            </button>
+        </div>
+    </form>
+</div></details>
+
+    <details><summary>Companies</summary>
+    <div style="padding-top: 50px; margin: 30px; clear: both;">
+
+        <div style=" align-items: center; display: flex; justify-content: center;">
+            <h1>Companies</h1>
+        </div>
+        <table class="table">
+            <thead class="thead-dark bg-dark text-light">
+                <tr>
+                    <th scope="col">Company ID</th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Company Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for company in companies %}
+                <tr>
+                    <th scope="row">{{ company[0] }}</th>
+                    <td>{{ company[1] }}</td>
+                    <td>{{ company[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row" style="align-items: center; display: flex; justify-content: center;">
+            <div class="col-md-3">
+                <button id="addEventBtn" type="button" class="mb-5 btn btn-primary btn-lg" onclick="toggleForm('addCompanyForm')">
+                    + Add new Company
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button id="updateCompanyBtn" type="button" class="mb-5 btn btn-warning btn-lg" onclick="toggleForm('updateCompanyForm')">
+                    Update Company Information
+                </button>
+            </div>
+            <div class="col-md-6" id="deleteEventDiv">
+                <button id="deleteEventBtn" type="button" class="mb-5 btn btn-danger btn-lg" onclick="toggleForm('deleteCompanyForm')">
+                    Delete Company
+                </button>
+            </div>
+            
+        </div>
+        
+        <!-- Add Event Form -->
+<!-- Add Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="addCompanyForm">
+    <form method="post" action="/manage_companies" style="width: 45vw; min-height: 20vw;">
+        <div class="form-group rounded" style="text-align: center;">
+            <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Add New Event</label>
+            <input type="text" name="ID" class="form-control w-100 border border-dark" placeholder="Enter Company ID" required>
+            <input type="text" name="name" class="form-control w-100 border border-dark" placeholder="Enter Company Name" required>
+            <input type="text" name="location" class="form-control w-100 border border-dark" placeholder="Enter Company Location" required>
+            
+        </div>
+        <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+            <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+                Add
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Update Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="updateCompanyForm">
+    <form method="post" action="/manage_companies" style="width: 45vw; min-height: 20vw;">
+        <div class="form-group rounded" style="text-align: center;">
+            <label style="margin-top: 4%; margin-bottom: 5%; font-family: Trebuchet MS; color: antiquewhite" class="h2">Update Company Information</label>
+            <select name="CompanyId" class="form-control w-100 border border-dark" required>
+                <option selected disabled>Select Company to Update</option>
+                {% for company in companies %}
+                <option value="{{ company[0] }}">{{ company[1] }}</option>
+                {% endfor %}
+            </select>
+            <select name="property" class="form-control w-100 border border-dark" required>
+                <option selected disabled>Select Property to Update</option>
+                <option value="ID">Company ID</option>
+                <option value="name">Company Name</option>
+                <option value="location">Company Location</option>
+               
+            </select>
+            <input type="text" name="new_value" class="form-control w-100 border border-dark" placeholder="Enter New Value" required>
+        </div>
+        <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+            <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark" name="updateCompany">
+                Update
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Delete Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="deleteCompanyForm">
+    <form method="post" action="/manage_companies" style="width: 45vw; min-height: 20vw;">
+        <div class="form-group rounded" style="text-align: center;">
+            <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Delete Event</label>
+            <select name="CompanyID" class="form-control w-100 border border-dark">
+                <option selected>Select Company to Delete</option>
+                {% for company in companies %}
+                <option value="{{ company[0] }}">{{ company[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+            <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+                Delete
+            </button>
+        </div>
+    </form>
+</div></details>
+
+    <details><summary>Distributers</summary>
+    <div style="padding-top: 50px; margin: 30px; clear: both;">
+
+        <div style=" align-items: center; display: flex; justify-content: center;">
+            <h1>Distributers</h1>
+        </div>
+        <table class="table">
+            <thead class="thead-dark bg-dark text-light">
+                <tr>
+                    <th scope="col">Distributer ID</th>
+                    <th scope="col">Distributer Name</th>
+                    <th scope="col">Distributer Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for distributer in distributers %}
+                <tr>
+                    <th scope="row">{{ distributer[0] }}</th>
+                    <td>{{ distributer[1] }}</td>
+                    <td>{{ distributer[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row" style="align-items: center; display: flex; justify-content: center;">
+            <div class="col-md-3">
+                <button id="addEventBtn" type="button" class="mb-5 btn btn-primary btn-lg" onclick="toggleForm('addDistributerForm')">
+                    + Add new Distributer
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button id="updateDistributerBtn" type="button" class="mb-5 btn btn-warning btn-lg" onclick="toggleForm('updateDistributerForm')">
+                    Update Distributer
+                </button>
+            </div>
+            <div class="col-md-6" id="deleteEventDiv">
+                <button id="deleteEventBtn" type="button" class="mb-5 btn btn-danger btn-lg" onclick="toggleForm('deleteDistributerForm')">
+                    Delete Distributer
+                </button>
+            </div>
+            
+        </div>
+        
+        <!-- Add Event Form -->
+<!-- Add Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="addDistributerForm">
+    <form method="post" action="/manage_distributers" style="width: 45vw; min-height: 20vw;">
+        <div class="form-group rounded" style="text-align: center;">
+            <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Add New Distributer</label>
+            <input type="text" name="ID" class="form-control w-100 border border-dark" placeholder="Enter Distributer ID" required>
+            <input type="text" name="name" class="form-control w-100 border border-dark" placeholder="Enter Distributer Name" required>
+            <input type="text" name="location" class="form-control w-100 border border-dark" placeholder="Enter Distributer Location" required>
+            
+        </div>
+        <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+            <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+                Add
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Update Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="updateDistributerForm">
+    <form method="post" action="/manage_distributers" style="width: 45vw; min-height: 20vw;">
+        <div class="form-group rounded" style="text-align: center;">
+            <label style="margin-top: 4%; margin-bottom: 5%; font-family: Trebuchet MS; color: antiquewhite" class="h2">Update Distributer</label>
+            <select name="DistributerId" class="form-control w-100 border border-dark" required>
+                <option selected disabled>Select Distributer to Update</option>
+                {% for distributer in distributers %}
+                <option value="{{ distributer[0] }}">{{ distributer[1] }}</option>
+                {% endfor %}
+            </select>
+            <select name="property" class="form-control w-100 border border-dark" required>
+                <option selected disabled>Select Property to Update</option>
+                <option value="ID">Distributer ID</option>
+                <option value="name">Distributer Name</option>
+                <option value="location">Distributer Location</option>
+
+            </select>
+            <input type="text" name="new_value" class="form-control w-100 border border-dark" placeholder="Enter New Value" required>
+        </div>
+        <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+            <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark" name="updateDistributer">
+                Update
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Delete Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="deleteDistributerForm">
+    <form method="post" action="/manage_distributers" style="width: 45vw; min-height: 20vw;">
+        <div class="form-group rounded" style="text-align: center;">
+            <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Delete Distributer</label>
+            <select name="DistributerID" class="form-control w-100 border border-dark">
+                <option selected>Select Distributer to Delete</option>
+                {% for distributer in distributers %}
+                <option value="{{ distributer[0] }}">{{ distributer[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+            <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+                Delete
+            </button>
+        </div>
+    </form>
+</div></details>
+    
+    <details><summary>Customers</summary>
+<div style="padding-top: 50px; margin: 30px; clear: both;">
+
+    <div style=" align-items: center; display: flex; justify-content: center;">
+        <h1>Customers</h1>
+    </div>
+    <table class="table">
+        <thead class="thead-dark bg-dark text-light">
+            <tr>
+                <th scope="col">Customer ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <th scope="row">{{ customer[0] }}</th>
+                <td>{{ customer[1] }}</td>
+                <td>{{ customer[2] }}</td>
+                <td>{{ customer[3] }}</td>
+                <td>{{ customer[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="row" style="align-items: center; display: flex; justify-content: center;">
+        <div class="col-md-3">
+            <button id="addEventBtn" type="button" class="mb-5 btn btn-primary btn-lg" onclick="toggleForm('addCustomerForm')">
+                + Add new Customer
+            </button>
+        </div>
+        
+        <div class="col-md-6" id="deleteEventDiv">
+            <button id="deleteEventBtn" type="button" class="mb-5 btn btn-danger btn-lg" onclick="toggleForm('deleteCustomerForm')">
+                Delete Customer
+            </button>
+        </div>
+        
+    </div>
+    
+    <!-- Add Event Form -->
+<!-- Add Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="addCustomerForm">
+<form method="post" action="/manage_customers" style="width: 45vw; min-height: 20vw;">
+    <div class="form-group rounded" style="text-align: center;">
+        <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Add New Customer</label>
+        <input type="number" name="ID" class="form-control w-100 border border-dark" placeholder="Enter Customer ID" required>
+        <input type="text" name="first_name" class="form-control w-100 border border-dark" placeholder="Enter Customer First Name" required>
+        <input type="text" name="last_name" class="form-control w-100 border border-dark" placeholder="Enter Customer Last Name" required>
+        <input type="email" name="e_mail" class="form-control w-100 border border-dark" placeholder="Enter Customer Email" required>
+        <input type="tel" name="phone_num" class="form-control w-100 border border-dark" placeholder="Enter Customer Phone Number" required>
+
+        
+    </div>
+    <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+        <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+            Add
+        </button>
+    </div>
+</form>
+</div>
+
+<!-- Update Event Form -->
+
+
+<!-- Delete Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="deleteCustomerForm">
+<form method="post" action="/manage_customers" style="width: 45vw; min-height: 20vw;">
+    <div class="form-group rounded" style="text-align: center;">
+        <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Delete Customer</label>
+        <select name="CustomerID" class="form-control w-100 border border-dark">
+            <option selected>Select Customer to Delete</option>
+            {% for customer in customers %}
+            <option value="{{ customer[0] }}">{{ customer[0] }} - {{ customer[1] }} {{ customer[2] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+        <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+            Delete
+        </button>
+    </div>
+</form>
+</div></details>
+
+<details><summary>Tickets</summary>
+<div style="padding-top: 50px; margin: 30px; clear: both;">
+
+    <div style=" align-items: center; display: flex; justify-content: center;">
+        <h1>Tickets</h1>
+    </div>
+    <table class="table">
+        <thead class="thead-dark bg-dark text-light">
+            <tr>
+                <th scope="col">Ticket ID</th>
+                <th scope="col">Ticket Type</th>
+                <th scope="col">Tickets Available</th>
+                <th scope="col">Tickets Sold</th>
+                <th scope="col">Price</th>
+                <th scope="col">Event ID</th>
+                <th scope="col">Distributor ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <th scope="row">{{ ticket[0] }}</th>
+                <td>{{ ticket[1] }}</td>
+                <td>{{ ticket[2] }}</td>
+                <td>{{ ticket[3] }}</td>
+                <td>{{ ticket[4] }}</td>
+                <td>{{ ticket[5] }}</td>
+                <td>{{ ticket[6] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="row" style="align-items: center; display: flex; justify-content: center;">
+        <div class="col-md-3">
+            <button id="addEventBtn" type="button" class="mb-5 btn btn-primary btn-lg" onclick="toggleForm('addTicketForm')">
+                + Add new Ticket
+            </button>
+        </div>
+        <div class="col-md-3">
+            <button id="updateEventBtn" type="button" class="mb-5 btn btn-warning btn-lg" onclick="toggleForm('updateTicketForm')">
+                Update Ticket
+            </button>
+        </div>
+        <div class="col-md-6" id="deleteEventDiv">
+            <button id="deleteEventBtn" type="button" class="mb-5 btn btn-danger btn-lg" onclick="toggleForm('deleteTicketForm')">
+                Delete Ticket
+            </button>
+        </div>
+        
+    </div>
+    
+    <!-- Add Event Form -->
+<!-- Add Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="addTicketForm">
+<form method="post" action="/manage_tickets" style="width: 45vw; min-height: 20vw;">
+    <div class="form-group rounded" style="text-align: center;">
+        <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Add New Ticket</label>
+        <input type="number" name="ID" class="form-control w-100 border border-dark" placeholder="Enter Ticket ID" required>
+        <input type="text" name="type" class="form-control w-100 border border-dark" placeholder="Enter Ticket Type" required>
+        <input type="number" name="tickets_available" class="form-control w-100 border border-dark" placeholder="Enter Tickets Available" required>
+        <input type="number" name="tickets_sold" class="form-control w-100 border border-dark" placeholder="Enter Tickets Sold" required>
+        <input type="number" name="price" class="form-control w-100 border border-dark" placeholder="Enter Ticket Price" required>
+        <input type="number" name="event_id" class="form-control w-100 border border-dark" placeholder="Enter Ticket Event ID " required>
+        <input type="number" name="distributer_id" class="form-control w-100 border border-dark" placeholder="Enter Ticket Distributer ID" required>
+
+
+        
+    </div>
+    <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+        <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+            Add
+        </button>
+    </div>
+</form>
+</div>
+
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="updateTicketForm">
+    <form method="post" action="/manage_tickets" style="width: 45vw; min-height: 20vw;">
+        <div class="form-group rounded" style="text-align: center;">
+            <label style="margin-top: 4%; margin-bottom: 5%; font-family: Trebuchet MS; color: antiquewhite" class="h2">Update Ticket</label>
+            <select name="TicketId" class="form-control w-100 border border-dark" required>
+                <option selected disabled>Select Ticket to Update</option>
+                {% for ticket in tickets %}
+                <option value="{{ ticket[0] }}">{{ ticket[0] }}</option>
+                {% endfor %}
+            </select>
+            <select name="property" class="form-control w-100 border border-dark" required>
+                <option selected disabled>Select Property to Update</option>
+                <option value="ID">Ticket ID</option>
+                <option value="type">Ticket Type</option>
+                <option value="tickets_available">Tickets Available</option>
+                <option value="tickets_sold">TicketS Sold</option>
+                <option value="price">Ticket  Price</option>
+                <option value="event_id">Event ID</option>
+                <option value="distributer_id">Distributer ID</option>
+                
+            </select>
+            <input type="text" name="new_value" class="form-control w-100 border border-dark" placeholder="Enter New Value" required>
+        </div>
+        <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+            <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark" name="updateTicket">
+                Update
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Delete Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="deleteTicketForm">
+<form method="post" action="/manage_tickets" style="width: 45vw; min-height: 20vw;">
+    <div class="form-group rounded" style="text-align: center;">
+        <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Delete Ticket</label>
+        <select name="TicketID" class="form-control w-100 border border-dark">
+            <option selected>Select Ticket to Delete</option>
+            {% for ticket in tickets %}
+            <option value="{{ ticket[0] }}">{{ ticket[0] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+        <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+            Delete
+        </button>
+    </div>
+</form>
+</div></details>
+
+<details><summary>Purchases</summary>
+    <!-- Purchases Section -->
+<div style="padding-top: 50px; margin: 30px; clear: both;">
+
+    <div style=" align-items: center; display: flex; justify-content: center;">
+        <h1>Purchases</h1>
+    </div>
+    <table class="table">
+        <thead class="thead-dark bg-dark text-light">
+            <tr>
+                <th scope="col">Purchase ID</th>
+                <th scope="col">Customer ID</th>
+                <th scope="col">Ticket ID</th>
+                <th scope="col">Payment Type</th>
+                <th scope="col">Purchase Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase in purchases %}
+            <tr>
+                <th scope="row">{{ purchase[0] }}</th>
+                <td>{{ purchase[1] }}</td>
+                <td>{{ purchase[2] }}</td>
+                <td>{{ purchase[3] }}</td>
+                <td>{{ purchase[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="row" style="align-items: center; display: flex; justify-content: center;">
+        <div class="col-md-3">
+            <button id="addEventBtn" type="button" class="mb-5 btn btn-primary btn-lg" onclick="toggleForm('addPurchaseForm')">
+                + Add new Purchase
+            </button>
+        </div>
+        
+        <div class="col-md-6" id="deleteEventDiv">
+            <button id="deleteEventBtn" type="button" class="mb-5 btn btn-danger btn-lg" onclick="toggleForm('deletePurchaseForm')">
+                Delete Purchase
+            </button>
+        </div>
+        
+    </div>
+    
+    <!-- Add Event Form -->
+<!-- Add Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="addPurchaseForm">
+<form method="post" action="/manage_purchase" style="width: 45vw; min-height: 20vw;">
+    <div class="form-group rounded" style="text-align: center;">
+        <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Add New Purchase</label>
+        <input type="number" name="purchase_id" class="form-control w-100 border border-dark" placeholder="Enter Purchase ID" required>
+        <input type="number" name="customer_id" class="form-control w-100 border border-dark" placeholder="Enter Customer ID" required>
+        <input type="number" name="ticket_id" class="form-control w-100 border border-dark" placeholder="Enter Ticket ID" required>
+        <input type="text" name="payment_type" class="form-control w-100 border border-dark" placeholder="Enter Purchase type" required>
+        <input type="datetime-local" name="purchase_date" class="form-control w-100 border border-dark" placeholder="Enter Purchase date" required>
+        
+
+        
+    </div>
+    <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+        <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+            Add
+        </button>
+    </div>
+</form>
+</div>
+
+
+
+<!-- Delete Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="deletePurchaseForm">
+<form method="post" action="/manage_purchase" style="width: 45vw; min-height: 20vw;">
+    <div class="form-group rounded" style="text-align: center;">
+        <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Delete Purchase</label>
+        <select name="PurchaseID" class="form-control w-100 border border-dark">
+            <option selected>Select Purchase to Delete</option>
+            {% for purchase in purchases %}
+            <option value="{{ purchase[0] }}">{{ purchase[0] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+        <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+            Delete
+        </button>
+    </div>
+</form>
+</div>
+
+
+</details>
+
+<details><summary>Company Customers</summary>
+    <!-- Cust_of Section -->
+<div style="padding-top: 50px; margin: 30px; clear: both;">
+
+    <div style=" align-items: center; display: flex; justify-content: center;">
+        <h1>Customers of Companies</h1>
+    </div>
+    <table class="table">
+        <thead class="thead-dark bg-dark text-light">
+            <tr>
+                <th scope="col">Company ID</th>
+                <th scope="col">Customer ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cust_of in cust_of %}
+            <tr>
+                <th scope="row">{{ cust_of[0] }}</th>
+                <td>{{ cust_of[1] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="row" style="align-items: center; display: flex; justify-content: center;">
+        <div class="col-md-3">
+            <button id="addEventBtn" type="button" class="mb-5 btn btn-primary btn-lg" onclick="toggleForm('addcust_ofForm')">
+                + Add new Relationship
+            </button>
+        </div>
+        
+        <div class="col-md-6" id="deleteEventDiv">
+            <button id="deleteEventBtn" type="button" class="mb-5 btn btn-danger btn-lg" onclick="toggleForm('deletecust_ofForm')">
+                Delete Relationship
+            </button>
+        </div>
+        
+    </div>
+    
+    <!-- Add Event Form -->
+<!-- Add Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="addcust_ofForm">
+<form method="post" action="/manage_cust_of" style="width: 45vw; min-height: 20vw;">
+    <div class="form-group rounded" style="text-align: center;">
+        <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Add New Relationship</label>
+        <input type="number" name="company_id" class="form-control w-100 border border-dark" placeholder="Enter Company ID" required>
+        <input type="number" name="customer_id" class="form-control w-100 border border-dark" placeholder="Enter Customer ID" required>
+        
+        
+    </div>
+    <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+        <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+            Add
+        </button>
+    </div>
+</form>
+</div>
+
+<!-- Update Event Form -->
+
+
+<!-- Delete Event Form -->
+<div class="bg-dark text-dark" style="align-items: center; display: none; justify-content: center; background-color: #f1faee; height: 20%; border-radius: 10px;" id="deletecust_ofForm">
+    <form method="post" action="/manage_cust_of" style="width: 45vw; min-height: 20vw;">
+        <div class="form-group rounded" style="text-align: center;">
+            <label style="margin-top: 4%; margin-bottom: 5%; font-style: Trebuchet MS; color: antiquewhite" class="h2">Delete Relationship</label>
+            <select name="cust_ofID" class="form-control w-100 border border-dark">
+                <option selected>Select Relationship to Delete</option>
+                {% for cust_of in cust_of %}
+                <option value="{{ cust_of[0] }},{{ cust_of[1] }}">{{ cust_of[0] }} - {{ cust_of[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-top: 3%; align-items: center; display: flex; justify-content: center;">
+            <button style="width: 20%; margin-top: 2%; margin-bottom: 5%; align-items: center; display: flex; justify-content: center; font-weight: bolder;" type="submit" class="btn btn-primary border border-dark">
+                Delete
+            </button>
+        </div>
+    </form>
+</div>
+
+
+
+</details>
+
+
+    <script type="text/javascript" src="{{ url_for('static',filename='app.js') }}"></script>
+</body>
+
+</html>
