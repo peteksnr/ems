@@ -21,6 +21,9 @@
       integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
       crossorigin="anonymous"
     ></script>
+    
+    
+  
     <style>
       body {
         overflow-x: hidden;
@@ -40,11 +43,11 @@
             class="btn btn-outline-danger my-2 my-sm-0 bg-danger text-white"
             style="margin-right: 30px; position: relative"
             type="submit"
-            >Events Info</a
+            >Home Page</a
           >
           
           {% if session['logged_in'] %}
-                    <a href="/customer_dashboard" class="btn btn-outline-secondary my-2 my-sm-0 bg-secondary text-white" style="margin-right: 30px;">Edit Information</a>
+                    <a href="/customer_dashboard" class="btn btn-outline-secondary my-2 my-sm-0 bg-secondary text-white" style="margin-right: 30px;">Edit Personal Information</a>
                     
                     <a href="/logout" class="btn btn-outline-secondary my-2 my-sm-0 bg-secondary text-white" style="margin-right: 30px;">Logout</a>
                     
@@ -67,9 +70,9 @@
             margin-top: 2%;
           "
         >
-          Event Registration Form
+          Buy Tickets
         </h1>
-        <form method="post" style="margin-top: 50px">
+        <form method="post" style="margin-top: 50px" id="form">
           <!-- Hidden Customer ID field -->
           <input type="hidden" name="ID" value="">
 
@@ -178,12 +181,14 @@
           
           <div class="row" style="margin-top: 20px; margin-bottom: 50px">
             <div class="col-md-5"></div>
-            <a
-            href="/events_info"
-            class="btn btn-outline-primary my-2 my-sm-0 bg-primary text-white"
-            type="submit"
-            >Submit</a
-          >
+            
+            <button
+              type="submit"
+              class="btn btn-primary border border-dark col-md-2"
+              onclick="window.location.href='/events_info'"
+            >
+              Submit
+            </button>
 
            <!-- <button
               

@@ -33,7 +33,7 @@ def runQuery(query, params=None):
     finally:
         db.close()
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/events_info', methods=['GET', 'POST'])
 def renderLoginPage():
     events = runQuery("SELECT * FROM events")
     user_info = session.get('user_info', {})
@@ -91,12 +91,14 @@ def renderLoginPage():
             # Insert a new purchase record
             runQuery("INSERT INTO Purchase (customer_id, ticket_id, payment_type, purchase_date) VALUES (%s, %s, %s, %s)",
                      (customer_id, ticket_id, payment_type, datetime.now()))
+            
 
         except Exception as e:
             print(f"Error: {str(e)}")
+            
             return render_template('loginfail.html', errors=["Database error: " + str(e)])
-
-        return render_template('events_info.html', events=events, user_info=user_info, errors=["Successfully Registered!"])
+        
+        return render_template('index.html', events=events, user_info=user_info, errors=["Successfully Registered!"])
     
     user_id = session.get('ID')
         # Redirect to login if not logged in
@@ -120,11 +122,29 @@ def renderLoginPage():
             }
             
     
-    return render_template('index.html', user_info=user_info, events=events, )
+    
+    # Retrieve event type popularity
+    event_type_popularity = runQuery("""
+        SELECT 
+            E.type AS EventType, 
+            COUNT(T.event_id) AS TotalTicketsSold
+        FROM 
+            events E
+        JOIN 
+            TICKET T ON E.ID = T.event_id
+        GROUP BY 
+            E.type
+        ORDER BY 
+            TotalTicketsSold DESC;
+    """)
+
+    events = runQuery("SELECT * FROM events")
+    return render_template('events_info.html',user_info=user_info, events=events, event_type_popularity=event_type_popularity)
+
 
     
 
-@app.route('/events_info')
+@app.route('/')
 def events_info():
     if request.method == 'POST':
         try:
@@ -141,6 +161,136 @@ def events_info():
                 runQuery("DELETE FROM events WHERE event_id=%s", (EventId,))
         except mysql.connector.Error as e:
             print(f"Error: {e}")
+    
+    # Retrieve event type popularity
+    event_type_popularity = runQuery("""
+        SELECT 
+            E.type AS EventType, 
+            COUNT(T.event_id) AS TotalTicketsSold
+        FROM 
+            events E
+        JOIN 
+            TICKET T ON E.ID = T.event_id
+        GROUP BY 
+            E.type
+        ORDER BY 
+            TotalTicketsSold DESC;
+    """)
+
+    events = runQuery("SELECT * FROM events")
+    return render_template('index.html', events=events, event_type_popularity=event_type_popularity)
+
+
+
+
+@app.route('/loginfail', methods=['GET'])
+def renderLoginFail():
+    return render_template('loginfail.html')
+
+@app.route('/admin', methods=['GET', 'POST'])
+def renderAdmin():
+    if request.method == 'POST':
+        UN = request.form['username']
+        PS = request.form['password']
+        print(f"Received Username: {UN}")  # Debugging print statement
+        print(f"Received Password: {PS}") 
+        if UN == 'admin' and PS == 'admin':
+            session['logged_in'] = True
+            return redirect('/eventType')
+        elif UN == 'manager' and PS == 'manager':
+            session['logged_in'] = True
+            return redirect('/manager')
+        else:
+            # Validate user credentials against the Customer table
+            query = "SELECT ID FROM Customer WHERE e_mail = %s AND phone_num = %s"
+            params = (UN, PS)
+            result = runQuery(query, params)
+            if result:
+                # Successful login, set session variables
+                session['logged_in'] = True
+                session['ID'] = result[0][0]  # Assuming ID is returned
+                return redirect('/')
+
+        return render_template('admin.html', errors=["Wrong Username/Password"])
+
+    return render_template('admin.html')
+
+# Add a route to handle logout
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.clear()
+    return redirect('/')
+
+@app.route('/customer_dashboard', methods=['GET', 'POST'])
+def customerDashboard():
+    if request.method == 'POST':
+        user_id = session.get('ID')
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        e_mail = request.form['e_mail']
+        phone_num = request.form['phone_num']
+
+        update_query = """
+        UPDATE Customer 
+        SET first_name = %s, last_name = %s, e_mail = %s, phone_num = %s 
+        WHERE ID = %s
+        """
+        params = (first_name, last_name, e_mail, phone_num, user_id)
+        runQuery(update_query, params)
+
+        session['first_name'] = first_name
+        session['last_name'] = last_name
+        session['e_mail'] = e_mail
+        session['phone_num'] = phone_num
+
+        return redirect('/')
+
+    elif request.method == 'GET':
+        user_id = session.get('ID')
+        if not user_id:
+            return redirect('/admin')  # Redirect to login if not logged in
+
+        query = "SELECT first_name, last_name, e_mail, phone_num FROM Customer WHERE ID = %s"
+        params = (user_id,)
+        result = runQuery(query, params)
+        if result:
+            user_info = {
+                'first_name': result[0][0],
+                'last_name': result[0][1],
+                'e_mail': result[0][2],
+                'phone_num': result[0][3]
+            }
+        else:
+            user_info = {
+                'first_name': '',
+                'last_name': '',
+                'e_mail': '',
+                'phone_num': ''
+            }
+    
+    return render_template('customer_dashboard.html', user_info=user_info)
+
+
+
+
+@app.route('/eventType', methods=['GET', 'POST'])
+def getEvents():
+    if request.method == 'POST':
+        try:
+            if 'newEvent' in request.form:
+                Name = request.form["newEvent"]
+                fee = request.form["Fee"]
+                #participants = request.form["maxP"]
+                Type = request.form["EventType"]
+                Location = request.form["EventLocation"]
+                Date = request.form['Date']
+                #runQuery("INSERT INTO events(event_title, event_price, participants, type_id, location_id, date) VALUES(%s, %s, %s, %s, %s, %s)", (Name, fee, participants, Type, Location, Date))
+            elif 'EventId' in request.form:
+                EventId = request.form["EventId"]
+                runQuery("DELETE FROM events WHERE event_id=%s", (EventId,))
+        except mysql.connector.Error as e:
+            print(f"Error: {e}")
+
     most_spending_customer = runQuery("""
         SELECT 
             C.ID AS CustomerID, 
@@ -161,7 +311,8 @@ def events_info():
     
     # Retrieve ranking of top revenue generating events
     top_revenue_events = runQuery("""
-        SELECT 
+        SELECT
+            ID,
             name AS EventName,
             CAST(income AS DECIMAL) AS TotalRevenue
         FROM 
@@ -226,7 +377,7 @@ def events_info():
     customer_loyalty = runQuery("""
         SELECT 
             C.ID AS CustomerID, 
-            C.first_name || ' ' || C.last_name AS CustomerName,
+            CONCAT(C.first_name, ' ', C.last_name) AS CustomerName,
             Co.ID AS CompanyID,
             Co.Name AS CompanyName,
             COUNT(P.purchase_id) AS PurchaseCount
@@ -262,128 +413,16 @@ def events_info():
     """)
 
     events = runQuery("SELECT * FROM events")
-    return render_template('events_info.html', events=events, most_spending_customer=most_spending_customer, top_revenue_events=top_revenue_events, company_most_event_types=company_most_event_types, company_most_customers=company_most_customers, company_sales_ranking=company_sales_ranking, customer_loyalty=customer_loyalty, event_type_popularity=event_type_popularity)
-
-
-
-
-@app.route('/loginfail', methods=['GET'])
-def renderLoginFail():
-    return render_template('loginfail.html')
-
-@app.route('/admin', methods=['GET', 'POST'])
-def renderAdmin():
-    if request.method == 'POST':
-        UN = request.form['username']
-        PS = request.form['password']
-        print(f"Received Username: {UN}")  # Debugging print statement
-        print(f"Received Password: {PS}") 
-        if UN == 'admin' and PS == 'admin':
-            session['logged_in'] = True
-            return redirect('/eventType')
-        elif UN == 'manager' and PS == 'manager':
-            session['logged_in'] = True
-            return redirect('/manager')
-        else:
-            # Validate user credentials against the Customer table
-            query = "SELECT ID FROM Customer WHERE e_mail = %s AND phone_num = %s"
-            params = (UN, PS)
-            result = runQuery(query, params)
-            if result:
-                # Successful login, set session variables
-                session['logged_in'] = True
-                session['ID'] = result[0][0]  # Assuming ID is returned
-                return redirect('/events_info')
-
-        return render_template('admin.html', errors=["Wrong Username/Password"])
-
-    return render_template('admin.html')
-
-# Add a route to handle logout
-@app.route('/logout', methods=['GET'])
-def logout():
-    session.clear()
-    return redirect('/events_info')
-
-@app.route('/customer_dashboard', methods=['GET', 'POST'])
-def customerDashboard():
-    if request.method == 'POST':
-        user_id = session.get('ID')
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        e_mail = request.form['e_mail']
-        phone_num = request.form['phone_num']
-
-        update_query = """
-        UPDATE Customer 
-        SET first_name = %s, last_name = %s, e_mail = %s, phone_num = %s 
-        WHERE ID = %s
-        """
-        params = (first_name, last_name, e_mail, phone_num, user_id)
-        runQuery(update_query, params)
-
-        session['first_name'] = first_name
-        session['last_name'] = last_name
-        session['e_mail'] = e_mail
-        session['phone_num'] = phone_num
-
-        return redirect('/events_info')
-
-    elif request.method == 'GET':
-        user_id = session.get('ID')
-        if not user_id:
-            return redirect('/admin')  # Redirect to login if not logged in
-
-        query = "SELECT first_name, last_name, e_mail, phone_num FROM Customer WHERE ID = %s"
-        params = (user_id,)
-        result = runQuery(query, params)
-        if result:
-            user_info = {
-                'first_name': result[0][0],
-                'last_name': result[0][1],
-                'e_mail': result[0][2],
-                'phone_num': result[0][3]
-            }
-        else:
-            user_info = {
-                'first_name': '',
-                'last_name': '',
-                'e_mail': '',
-                'phone_num': ''
-            }
-    
-    return render_template('customer_dashboard.html', user_info=user_info)
-
-
-
-
-@app.route('/eventType', methods=['GET', 'POST'])
-def getEvents():
-    if request.method == 'POST':
-        try:
-            if 'newEvent' in request.form:
-                Name = request.form["newEvent"]
-                fee = request.form["Fee"]
-                #participants = request.form["maxP"]
-                Type = request.form["EventType"]
-                Location = request.form["EventLocation"]
-                Date = request.form['Date']
-                #runQuery("INSERT INTO events(event_title, event_price, participants, type_id, location_id, date) VALUES(%s, %s, %s, %s, %s, %s)", (Name, fee, participants, Type, Location, Date))
-            elif 'EventId' in request.form:
-                EventId = request.form["EventId"]
-                runQuery("DELETE FROM events WHERE event_id=%s", (EventId,))
-        except mysql.connector.Error as e:
-            print(f"Error: {e}")
-
-    events = runQuery("SELECT * FROM events")
     companies = runQuery("SELECT * FROM Company")
     distributers = runQuery("SELECT * FROM Distributer")
     customers = runQuery("SELECT * FROM Customer")
     tickets = runQuery("SELECT * FROM Ticket")
     purchases = runQuery("SELECT * FROM Purchase")
     cust_of = runQuery("SELECT * FROM cust_of")
+    return render_template('events.html',events=events, companies=companies, distributers=distributers, customers=customers, tickets=tickets, purchases=purchases, cust_of=cust_of, most_spending_customer=most_spending_customer, top_revenue_events=top_revenue_events, company_most_event_types=company_most_event_types, company_most_customers=company_most_customers, company_sales_ranking=company_sales_ranking, customer_loyalty=customer_loyalty, event_type_popularity=event_type_popularity)
 
-    return render_template('events.html', events=events, companies=companies, distributers=distributers, customers=customers, tickets=tickets, purchases=purchases, cust_of=cust_of)
+
+    
 
 @app.route('/manager')
 def manager():
@@ -402,10 +441,111 @@ def manager():
                 runQuery("DELETE FROM events WHERE event_id=%s", (EventId,))
         except mysql.connector.Error as e:
             print(f"Error: {e}")
-
+    most_spending_customer = runQuery("""
+        SELECT 
+            C.ID AS CustomerID, 
+            CONCAT(C.first_name, ' ', C.last_name) AS CustomerName,
+            SUM(T.price) * COUNT(P.purchase_id) AS TotalSpent
+        FROM 
+            Purchase P
+        JOIN 
+            TICKET T ON P.ticket_id = T.ID
+        JOIN 
+            Customer C ON P.customer_id = C.ID
+        GROUP BY 
+            C.ID, CustomerName
+        ORDER BY 
+            TotalSpent DESC
+        LIMIT 1;
+    """)
+    
+    # Retrieve ranking of top revenue generating events
+    top_revenue_events = runQuery("""
+        SELECT 
+            name AS EventName,
+            CAST(income AS DECIMAL) AS TotalRevenue
+        FROM 
+            events
+        ORDER BY 
+            TotalRevenue DESC;
+    """)
+    
+    # Retrieve company with the most event types
+    company_most_event_types = runQuery("""
+        SELECT 
+            C.ID AS CompanyID, 
+            C.Name AS CompanyName, 
+            COUNT(E.type) AS EventTypeCount
+        FROM 
+            Company C
+        JOIN 
+            events E ON C.ID = E.company_id
+        GROUP BY 
+            C.ID, CompanyName
+        ORDER BY 
+            EventTypeCount DESC
+        LIMIT 1;
+    """)
+    
+    
+    
+    # Retrieve ranking sales of companies
+    company_sales_ranking = runQuery("""
+    SELECT 
+        C.ID AS CompanyID,
+        C.Name AS CompanyName,
+        SUM(CAST(E.income AS DECIMAL)) AS TotalRevenue
+    FROM 
+        Company C
+    LEFT JOIN 
+        events E ON C.ID = E.company_id
+    GROUP BY 
+        C.ID, CompanyName
+    ORDER BY 
+        TotalRevenue DESC;
+""")
+    
+    # Retrieve customer loyalty analysis
+    customer_loyalty = runQuery("""
+        SELECT 
+            C.ID AS CustomerID, 
+            CONCAT(C.first_name, ' ', C.last_name) AS CustomerName,
+            Co.ID AS CompanyID,
+            Co.Name AS CompanyName,
+            COUNT(P.purchase_id) AS PurchaseCount
+        FROM 
+            Purchase P
+        JOIN 
+            Customer C ON P.customer_id = C.ID
+        JOIN 
+            TICKET T ON P.ticket_id = T.ID
+        JOIN 
+            events E ON T.event_id = E.ID
+        JOIN 
+            Company Co ON E.company_id = Co.ID
+        GROUP BY 
+            C.ID, CustomerName, Co.ID, CompanyName
+        ORDER BY 
+            CustomerID, CompanyID;
+    """)
+    
+    # Retrieve event type popularity
+    event_type_popularity = runQuery("""
+        SELECT 
+            E.type AS EventType, 
+            COUNT(T.event_id) AS TotalTicketsSold
+        FROM 
+            events E
+        JOIN 
+            TICKET T ON E.ID = T.event_id
+        GROUP BY 
+            E.type
+        ORDER BY 
+            TotalTicketsSold DESC;
+    """)
     events = runQuery("SELECT * FROM events")
     distributers = runQuery("SELECT * FROM Distributer")
-    return render_template('manager.html', events=events,distributers=distributers)
+    return render_template('manager.html', events=events,distributers=distributers, most_spending_customer=most_spending_customer, top_revenue_events=top_revenue_events, company_most_event_types=company_most_event_types, company_sales_ranking=company_sales_ranking, customer_loyalty=customer_loyalty, event_type_popularity=event_type_popularity)
 
 
 @app.route('/manage_distributers', methods=['GET', 'POST'])

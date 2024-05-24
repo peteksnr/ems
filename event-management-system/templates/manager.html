@@ -303,7 +303,163 @@
     
  
 
+<div class="container">
+    <!-- Most Spending Customer -->
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Most Spending Customer</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        
+                        <th>Customer Name</th>
+                        <th>Total Spent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in most_spending_customer %}
+                    <tr>
+                        
+                        <td>{{ customer[1] }}</td>
+                        <td>{{ customer[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
+    <!-- Top Revenue Generating Events -->
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Top Revenue Generating Events</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        
+                        <th>Event Name</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in top_revenue_events %}
+                    <tr>
+                        
+                        <td>{{ event[0] }}</td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Company with Most Event Types -->
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Company with Most Event Types</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        
+                        <th>Company Name</th>
+                        <th>Event Type Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for company in company_most_event_types %}
+
+                    <tr>
+                          
+                          <td>{{ company[1] }}</td>
+                          <td>{{ company[2] }}</td>
+                      </tr>
+                    
+                    {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+        </div>
+         <!-- Company with Most Customers -->
+       
+  
+      <!-- Ranking Sales of Companies -->
+      <div class="row mb-4">
+          <div class="col">
+              <h2>Ranking Sales of Companies</h2>
+              <table class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                          
+                          <th>Company Name</th>
+                          <th>Total Revenue</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for company in company_sales_ranking %}
+                      <tr>
+                          
+                          <td>{{ company[1] }}</td>
+                          <td>{{ company[2] }}</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  
+      <!-- Customer Loyalty Analysis -->
+      <div class="row mb-4">
+          <div class="col">
+              <h2>Customer Loyalty Analysis</h2>
+              <table class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                          
+                          <th>Customer Name</th>
+                          
+                          <th>Company Name</th>
+                          <th>Purchase Count</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for loyalty in customer_loyalty %}
+                      <tr>
+                          
+                          <td>{{ loyalty[1] }}</td>
+                          
+                          <td>{{ loyalty[3] }}</td>
+                          <td>{{ loyalty[4] }}</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  
+      <!-- Event Type Popularity -->
+      <div class="row mb-4">
+          <div class="col">
+              <h2>Event Type Popularity</h2>
+              <table class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                          <th>Event Type</th>
+                          <th>Total Tickets Sold</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for event_type in event_type_popularity %}
+                      <tr>
+                          <td>{{ event_type[0] }}</td>
+                          <td>{{ event_type[1] }}</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
 
 
 
