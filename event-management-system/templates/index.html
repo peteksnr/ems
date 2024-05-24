@@ -21,18 +21,7 @@
       integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
       crossorigin="anonymous"
     ></script>
-    <script>
-      function submitFormAndRedirect() {
-          // Get the form element
-          var form = document.getElementById('form');
-          
-          // Submit the form
-          form.submit();
-          
-          // Redirect to the events_info page after form submission
-          window.location.href = "http://127.0.0.1:5000/events_info";
-      }
-  </script>
+    
     
   
     <style>
@@ -196,7 +185,7 @@
             <button
               type="submit"
               class="btn btn-primary border border-dark col-md-2"
-              onclick="submitFormAndRedirect()"
+              onclick="window.location.href='/events_info'"
             >
               Submit
             </button>

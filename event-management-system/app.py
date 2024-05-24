@@ -96,7 +96,7 @@ def renderLoginPage():
             print(f"Error: {str(e)}")
             return render_template('loginfail.html', errors=["Database error: " + str(e)])
 
-        return render_template('index.html', events=events, user_info=user_info, errors=["Successfully Registered!"])
+        return render_template('events_info.html', events=events, user_info=user_info, errors=["Successfully Registered!"])
     
     user_id = session.get('ID')
         # Redirect to login if not logged in
